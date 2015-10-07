@@ -643,7 +643,7 @@ defineObject{
 			hitEffect = "hit_goo",
 			capsuleHeight = 0.2,
 			capsuleRadius = 0.7,
-			health = 10,
+			health = 20,
 			evasion = 45,
 			flying = true,
 			exp = 50,

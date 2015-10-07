@@ -77,7 +77,7 @@ defineObject {
 			weight = 2,
 			impactSound = "impact_blade",
 			traits = {
-				"heavy_weapon",
+				"light_weapon",
 				"aquatic"
 			},
 		},
@@ -89,7 +89,7 @@ defineObject {
 			class = "MeleeAttack",			
 			attackPower = 17,
             requirements = {
-				"heavy_weapons",
+				"light_weapons",
 				1
 			},
 		}
