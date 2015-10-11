@@ -5,17 +5,14 @@ import "assets/scripts/standard_assets.lua"
 
 -- import custom assets
 import "mod_assets/scripts/materials.lua"
-import "mod_assets/scripts/tiles.lua"
 import "mod_assets/scripts/objects.lua"
 import "mod_assets/scripts/items.lua"
 import "mod_assets/scripts/monsters.lua"
 import "mod_assets/scripts/weapons.lua"
-import "mod_assets/scripts/recipes.lua"
+import "mod_assets/scripts/spells_override.lua"
 import "mod_assets/scripts/spells.lua"
-import "mod_assets/scripts/sounds.lua"
 import "mod_assets/scripts/food.lua"
 import "mod_assets/scripts/clothes.lua"
 
 -- import grimtk
 import "mod_assets/grimtk/init.lua"
--- import "mod_assets/gtk_notebook/init.lua"

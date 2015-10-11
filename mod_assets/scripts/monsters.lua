@@ -8,10 +8,10 @@ defineObject{
 	components = {
 		{
 			hitSound = "crab_hit",
-			protection = 24,
+			protection = 30,
 			health = 5000,
 			class = "Monster",
-			evasion = 0,
+			evasion = 10,
 			meshName = "crab_mesh",
 			traits = {
 				"animal"
@@ -25,7 +25,7 @@ defineObject{
 				"frozen",
 				"critical"
 			},
-			resistances = { cold="immune", fire="weak"},
+			resistances = { cold="immune", fire="weak", physical="immune"},
 			hitEffect = "hit_goo",
 			capsuleRadius = 0.6,
 			dieSound = "crab_die",
@@ -35,7 +35,7 @@ defineObject{
 				if damageType == "fire" then
 					self.go.brain:startFleeing()
                     self.go.brainScript.counter = 10
-					if damage > 80 then 
+					if damage > 20 and self:isAlive() then 
 						self:die()
 					end
 				end
@@ -484,6 +484,7 @@ defineObject{
 	}
 }
 
+
 defineObject{
 	name = "tentacles",
 	baseObject = "base_monster",
@@ -531,7 +532,7 @@ defineObject{
 			exp = 320,
 			headRotation = vec(90, 0, 0),
 		    onPerformAction = function(self, b, c, d, e)	
-                print(self, b, c, d, e)
+                --print(self, b, c, d, e)
           	end
 		},
 		{
@@ -562,8 +563,15 @@ defineObject{
 			sound = "tentacles_walk",
 		},
 		{
-			class = "TentacleHide",
+			class = "MonsterTurn",
 			name = "hide",
+			animation = "hide",
+		},
+		{
+			class = "MonsterTurn",
+			name = "reveal",
+			animation = "reveal",					
+			animationSpeed = 2.5,
 		},
 		{
 			class = "MonsterAttack",
@@ -643,10 +651,10 @@ defineObject{
 			hitEffect = "hit_goo",
 			capsuleHeight = 0.2,
 			capsuleRadius = 0.7,
-			health = 20,
-			evasion = 45,
+			health = 10,
+			evasion = 35,
 			flying = true,
-			exp = 50,
+			exp = 100,
             swarm = true,
 			immunities = { "sleep", "blinded" },
 			traits = { "animal" },
@@ -697,7 +705,7 @@ defineObject{
 			attackFromBehindAnimation = "attackFromBehind",
 			attackPower = 2,
 			pierce = 10,
-			cooldown = 1.4,
+			cooldown = 1.5,
 			repeatChance = 55,
 			sound = "mosquito_swarm_attack",
 			animationSpeed = 1.4,
@@ -707,5 +715,109 @@ defineObject{
 			name = "changeAltitude",
 			sound = "mosquito_swarm_walk",
 		}
+	},
+}
+
+defineObject{
+	name = "the_beast",
+	baseObject = "base_monster",
+	components = {
+		{
+			class = "Model",
+			model = "assets/models/monsters/swamp_toad.fbx",
+			storeSourceData = true, -- must be enabled for mesh particles to work
+		},
+		{
+			class = "Animation",
+			animations = {
+				idle = "assets/animations/monsters/swamp_toad/swamp_toad_idle.fbx",
+				moveForward = "assets/animations/monsters/swamp_toad/swamp_toad_walk.fbx",
+				turnLeft = "assets/animations/monsters/swamp_toad/swamp_toad_turn_left.fbx",
+				turnRight = "assets/animations/monsters/swamp_toad/swamp_toad_turn_right.fbx",
+				attack = "assets/animations/monsters/swamp_toad/swamp_toad_attack.fbx",
+				attackFromBehind = "assets/animations/monsters/swamp_toad/swamp_toad_attack_from_behind.fbx",
+				tongueAttack = "assets/animations/monsters/swamp_toad/swamp_toad_tongue_attack.fbx",
+				jumpAttack = "assets/animations/monsters/swamp_toad/swamp_toad_jump_attack.fbx",
+				getHitFrontLeft = "assets/animations/monsters/swamp_toad/swamp_toad_get_hit_front_left.fbx",
+				getHitFrontRight = "assets/animations/monsters/swamp_toad/swamp_toad_get_hit_front_right.fbx",
+				getHitBack = "assets/animations/monsters/swamp_toad/swamp_toad_get_hit_back.fbx",
+				getHitLeft = "assets/animations/monsters/swamp_toad/swamp_toad_get_hit_left.fbx",
+				getHitRight = "assets/animations/monsters/swamp_toad/swamp_toad_get_hit_right.fbx",
+				eatBomb = "assets/animations/monsters/swamp_toad/swamp_toad_eat_bomb.fbx",
+				fall = "assets/animations/monsters/swamp_toad/swamp_toad_get_hit_front_left.fbx",
+				longJump = "assets/animations/monsters/swamp_toad/swamp_toad_jump_up.fbx",
+			},
+			currentLevelOnly = true,
+		},
+		{
+			class = "Monster",
+			meshName = "swamp_toad_mesh",
+			hitSound = "swamp_toad_hit",
+			dieSound = "swamp_toad_die",
+			hitEffect = "hit_goo",
+			capsuleHeight = 0.2,
+			capsuleRadius = 0.7,
+			health = 5000,
+			evasion = 10,
+			exp = 2000,
+			lootDrop = { 90, "toad_tongue",},
+			resistances = { ["shock"] = "weak" },
+			traits = { "animal" },
+		},
+		{
+			class = "ToadBrain",
+			name = "brain",
+			sight = 4,
+		},
+		{
+			class = "MonsterMove",
+			name = "move",
+			sound = "swamp_toad_walk",
+			cooldown = 4,
+		},
+		{
+			class = "MonsterTurn",
+			name = "turn",
+			sound = "swamp_toad_walk",
+		},
+		{
+			class = "MonsterAttack",
+			name = "basicAttack",
+			attackFromBehindAnimation = "attackFromBehind",
+			attackPower = 25,
+			cooldown = 5,
+			animation = "attack",
+			sound = "swamp_toad_attack",
+		},
+		{
+			class = "MonsterStealWeapon",
+			name = "steal",
+			cooldown = 20,
+			animation = "tongueAttack",
+			sound = "swamp_toad_tongue_attack",
+		},
+		{
+			class = "MonsterAction",
+			name = "eatBomb",
+			animation = "eatBomb",
+		},
+		{
+			class = "MonsterMoveAttack",
+			name = "leapAttack",
+			attackPower = 32,
+			accuracy = 50,
+			cooldown = 10,
+			animation = "jumpAttack",
+			sound = "swamp_toad_attack",
+		},
+		{
+			class = "MonsterJump",
+			name = "jump",
+			animation = "longJump",
+			animDurationBeforeJump = 0.22,
+			animDurationAfterJump = 0.44,
+			cooldown = 0.1,
+			sound = "swamp_toad_long_jump",
+		},
 	},
 }

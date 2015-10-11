@@ -31,7 +31,7 @@ end
 function _showPage2()	
 	local page = {
 		speakerName = "Onigin",
-		speakerMessage = "It is a sad story. I wasn't born like that. I was put in this chest by cruel master Derondan right after I was born.",
+		speakerMessage = "It is a sad story. I wasn't born like that. I was put in this chest by my cruel master Derondan right after I was born.",
 		onFinish = function (response)
             if ( response == 1 ) then
                 _showPage3()
@@ -57,7 +57,7 @@ end
 function _showPage3()	
 	local page = {
 		speakerName = "Onigin",
-		speakerMessage = "My body has grown tight into the wood. It is hard to tell now where the chest ends and where I begin. Also I am afraid I couldn't handle it outside anyway.",
+		speakerMessage = "My body has grown tight into the wood. It is hard to tell now where the chest ends and where I begin. Also I am afraid I couldn't handle outside world anyway.",
 		onFinish = function (response)
             if ( response == 1 ) then
                 _showPage4()
@@ -79,7 +79,7 @@ end
 function _showPage4()	
 	local page = {
 		speakerName = "Onigin",
-		speakerMessage = "My mother was his wife, but I wasn't his son. My mother begged him to spare my life so he put me in this chest for amusement of all. Sometimes I wish he rather killed me.",
+		speakerMessage = "My mother was his wife, but I wasn't his son. My mother begged him to spare my life so he put me in this chest for amusement of all. Sometimes I wish he had rather killed me.",
 		onFinish = function (response)
             if ( response == 1 ) then
                 _showPage3()
@@ -149,7 +149,7 @@ end
 function _showPage7()	
 	local page = {
 		speakerName = "Onigin",
-		speakerMessage = "I am afraid you will have to swim. That will be dangerous as there are some really nasty creatures living in the lake.",
+		speakerMessage = "I am afraid you will have to swim. That will be dangerous as there are some really nasty creatures living in the lagoon.",
 		onFinish = function (response)
             if ( response == 1 ) then
                 _showPage6()

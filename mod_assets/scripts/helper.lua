@@ -1,3 +1,39 @@
+function table_print (tt, indent, done)
+  done = done or {}
+  indent = indent or 0
+  --local tt = getAllData(t)
+  if type(tt) == "table" then
+    local sb = {}
+    for key, value in pairs (tt) do
+      if type (value) == "table" and not done [value] then
+        done [value] = true
+        print( string.rep(" ", indent) .. "{");
+        table_print(value, indent + 2, done)
+        print( string.rep(" ", indent) .. "}");
+      elseif "number" == type(key) then
+        print( string.rep(" ", indent) .. string.format("\"%s\"", tostring(value)))
+      else
+        print( string.rep(" ", indent) .. string.format("%s = \"%s\"", tostring (key), tostring(value)))
+       end
+    end
+  else
+    print( string.rep(" ", indent) .. tt)
+  end
+end
+
+function deb(n)
+	if  "nil" == type( n ) then
+        print("nil")
+    elseif  "table" == type( n ) then
+        print("table:")
+		table_print(n, 2)
+    elseif  "string" == type( n ) then
+        print(n)
+    else
+        print(tostring(n))
+    end
+end
+
 function gainExp(xp, msg)	
 	if party ~= nil then
 		for i=1,4 do
@@ -40,6 +76,10 @@ function _spawn( n, level, x, y, direction, elevation, id)
 	return spawn(n, level or 1, x or 0, y or 0 , direction or 1, elevation or 0, id)
 end
 
+function spawnAt( n, position, id)
+	return _spawn(n, position.level, position.x, position.y, position.facing, position.elevation, id)
+end
+
 last_random = 0
 
 function _random(a, b)
@@ -53,12 +93,6 @@ function _random(a, b)
 		last_random = x
 		return x
 	end
-end
-
-function shoot(n, start)
-	-- local knife = helper.script._spawn("throwing_knife")
-	--shootProjectile(n, start.level, start.x, start.y, start.facing, 10, 0, 0, 0, 0, 0, 1000, nil, false)
-	shootProjectile(n, start.level, start.x, start.y, start.facing, 10, 0, 0, 0, 0, 0, 0, 0, true)
 end
 
 function addToSurface(surface, item)
@@ -100,7 +134,7 @@ function talkChampion(msgs)
 	local ch
 	ch = getFirstChampion()
 	if ch ~= nil then
-		hudPrint( ch:getName() .. ": \"" .. msgs[_random(1,#msgs)] .. "\"")
+		talkRandom( ch:getName(), msgs)
 	end
 end			
 
@@ -115,7 +149,7 @@ function noSpell( n )
 	msgs = {
 				"Do you actually believe in magic?",
 				"Your old spells are useless in this adventure.",
-				"Stop waving those hands, Gandalf.",
+				"Stop waving those hands you little Gandalf.",
 				msg1, msg2
 			}
 	printRandom( msgs );

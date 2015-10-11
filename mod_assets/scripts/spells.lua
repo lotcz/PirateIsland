@@ -82,7 +82,7 @@ defineObject{
 			name = "projectile",
 			class = "Projectile",
 			radius = 0.1,
-			spawnOffsetY = 1.35
+			spawnOffsetY = 1.35,
 		},
 		{
 			sound = "dark_bolt",
@@ -151,42 +151,16 @@ defineSpell {
 	manaCost = 0,
 	icon = 72,
 	spellIcon = 13,
-	description = "Foretellers make fortune using these. Maybe that is why they are sometimes called fortune tellers.",
+	description = "Fortunetellers make fortune using these. Maybe that is why they are called fortune-tellers.",
 	onCast = function(champion, x, y, direction, elevation, skillLevel)
-		hudPrint("Do you believe this stuff?")
-	end
-}
-
-defineSpell {
-	name = "nospell_fireburst",
-	uiName = "No Spell",
-	gesture = 1,
-	manaCost = 0,
-	icon = 72,
-	spellIcon = 13,
-	description = "No spell.",
-	onCast = function(champion, x, y, direction, elevation, skillLevel)
-		helper.script.noSpell(champion:getName())
-	end
-}
-
-defineSpell {
-	name = "nospell_dark_bolt",
-	uiName = "No Spell",
-	gesture = 458,
-	manaCost = 0,
-	icon = 72,
-	spellIcon = 13,
-	description = "No spell.",
-	onCast = function(champion, x, y, direction, elevation, skillLevel)
-		helper.script.noSpell(champion:getName())
+		hudPrint("Do you believe in this stuff?")
 	end
 }
 
 defineSpell {
 	name = "make_torn_cloth",
 	uiName = "Make Torn Cloth",
-	gesture = 789,
+	gesture = 7896,
 	manaCost = 15,
 	icon = 11,
 	spellIconAtlas = "mod_assets/textures/spell_icons.tga",
@@ -219,4 +193,77 @@ defineSpell {
 			)
 		end
 	end
+}
+
+defineObject{
+   name ="projectile_arrow",
+   baseObject = "base_spell",
+   components = {
+	  {
+		 class = "Model",
+		 model = "assets/models/items/arrow.fbx",
+		 rotation = vec(0,90,0)
+	  },
+	  {
+		 class = "Projectile",
+		 spawnOffsetY = 1.15,
+		 velocity = 15.0,
+		 radius = 0.1,
+		 hitEffect = "projectile_arrow_hit",
+	  },
+	  {
+		 class = "Sound",
+		 name = "launchSound",
+		 sound = "swipe_bow",
+	  }
+   },
+}
+
+defineObject{
+   name = "projectile_arrow_hit",
+   baseObject = "base_spell",
+   components = {
+	 {
+		 class = "TileDamager",
+		 attackPower = 10,
+		 damageType = "physical",
+		 screenEffect = "damage_screen",
+		 sound = "projectile_hit_party",
+	  }
+   },
+}
+	
+defineObject{
+	name = "cannon_shot",
+	baseObject = "base_spell",
+	components = {
+		{
+			class = "Particle",
+			particleSystem = "fireball_large",
+		},
+		{
+			class = "Light",
+			color = vec(1, 0.5, 0.25),
+			brightness = 25,
+			range = 17,
+			castShadow = true,
+		},
+		{
+			class = "Projectile",
+			spawnOffsetY = 1.35,
+			velocity = 15,
+			radius = 0.2,
+			hitEffect = "fireball_blast_large",
+			gravity = 0.6
+		},
+		{
+			class = "Sound",
+			sound = "fireball",
+		},
+		{
+			class = "Sound",
+			name = "launchSound",
+			sound = "fireball_launch",
+		},
+	},
 }

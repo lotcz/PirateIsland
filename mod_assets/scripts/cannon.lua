@@ -1,25 +1,37 @@
-function isLoaded(alcove)
-	return helper.script.surfaceContains(alcove, "gunpowder") and helper.script.surfaceContains(alcove, "navy_cannon_ball")
+function isLoaded(surface)
+	return surface:count() == 3 and helper.script.surfaceContains(surface, "gunpowder") and helper.script.surfaceContains(surface, "navy_cannon_ball")
 end
 
-function insertItem(settings, alcove, item)
-	if isLoaded(alcove) then
+function insertItem(settings, surface, item)
+	if isLoaded(surface) then
 		local lever = findEntity(settings.name .. "_lever")
-		if lever.lever:isActivated() then
+		if lever and lever.lever:isActivated() then
 			lever.lever:toggle()
 		end
+		hudPrint("Cannon is loaded.")
+		local sound = findEntity(settings.name .. "_sound")
+		if sound then
+			sound.controller:deactivate()	
+		end
+		local rsound = findEntity(settings.name .. "_reload_sound")		
+		if rsound then
+			rsound.controller:activate()		
+		end
 	else
-		-- lever.controller:activate()
-		hudPrint("This cannon only needs gunpowder and a cannon ball")
+		if surface:count() > 3 then
+			hudPrint("Cannon is overloaded.")
+		else
+			hudPrint("This cannon needs gunpowder and a cannon ball.")
+		end
 	end
 end
 
-function removeItem(settings, alcove, item)	
-	if isLoaded(alcove) then		
+function removeItem(settings, surface, item)	
+	if isLoaded(surface) then		
 		-- lever.controller:activate()
 	else
 		local lever = findEntity(settings.name .. "_lever")
-		if not lever.lever:isActivated() then
+		if lever and not lever.lever:isActivated() then
 			lever.lever:toggle()
 		end
 	end
@@ -31,17 +43,30 @@ function shoot(settings, auto)
 		local spawner = findEntity(settings.name .. "_spawner")
 		spawner.spawner:activate()
 		local sound = findEntity(settings.name .. "_sound")
-		sound.sound:stop()
-		sound.controller:activate()
-		unloadCannon(pedestal, settings.unloadDirection)
+		if sound then
+			sound.controller:activate()
+		end
+		local rsound = findEntity(settings.name .. "_reload_sound")		
+		if rsound then
+			rsound.controller:deactivate()	
+		end
+		unloadCannon(pedestal.surface)
+	else 
+		if pedestal.surface:count() > 3 then
+			hudPrint("Cannon is overloaded.")
+		else
+			helper.script.talkChampion({"Cannon is not loaded."})
+		end
 	end
 end
 
-function unloadCannon(pedestal, unloadDirection)
-	local x, y = getForward(unloadDirection)		
-	for _,i in pedestal.surface:contents() do
-		if i.go.name ~= "hand_cannon" then
-			i.go:setPosition(pedestal.x + x, pedestal.y + y, pedestal.facing, pedestal.elevation, pedestal.level)
-		end
+function unloadCannon(surface)
+	local ball = helper.script.getFirstTypeFromSurface(surface,"navy_cannon_ball")
+	if ball then 
+		ball.go:destroy()
 	end
+	local gunpowder = helper.script.getFirstTypeFromSurface(surface,"gunpowder")
+	if gunpowder then 
+		gunpowder.go:destroy()
+	end	
 end

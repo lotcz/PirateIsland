@@ -29,12 +29,7 @@ defineObject{
 			onUseItem = function(self,champion)
 				local mult = iff(champion:hasTrait("fast_metabolism"), 2, 1)
 				champion:regainHealth(25*mult)
-				champion:removeCondition("head_wound")
-				champion:removeCondition("chest_wound")
-				champion:removeCondition("leg_wound")
-				champion:removeCondition("feet_wound")
-				champion:removeCondition("right_hand_wound")
-				champion:removeCondition("left_hand_wound")
+				champion:regainEnergy(25)
 				champion:playHealingIndicator()
 			end
     },
@@ -73,12 +68,7 @@ defineObject{
 			onUseItem = function(self,champion)
 				local mult = iff(champion:hasTrait("fast_metabolism"), 2, 1)
 				champion:regainHealth(40*mult)
-				champion:removeCondition("head_wound")
-				champion:removeCondition("chest_wound")
-				champion:removeCondition("leg_wound")
-				champion:removeCondition("feet_wound")
-				champion:removeCondition("right_hand_wound")
-				champion:removeCondition("left_hand_wound")
+				champion:regainEnergy(20)
 				champion:playHealingIndicator()
 			end
 		}
@@ -114,7 +104,7 @@ defineObject{
 			name = "usableitem",
 			onUseItem = function(self,champion)
 				local mult = iff(champion:hasTrait("fast_metabolism"), 2, 1)
-				champion:regainHealth(20*mult)
+				champion:regainHealth(50*mult)
 				champion:regainEnergy(50)
 				champion:removeCondition("head_wound")
 				champion:removeCondition("chest_wound")
@@ -123,6 +113,14 @@ defineObject{
 				champion:removeCondition("right_hand_wound")
 				champion:removeCondition("left_hand_wound")
 				champion:playHealingIndicator()
+				--helper.script.gainExp(20, "Ate magic mushroom.")
+				champion:gainExp(100)
+				helper.script.talkRandom(champion:getName(), {
+					"Wow! These mushrooms are good.",
+					"Can I have more of those mushrooms?",
+					"I like these mushrooms!",
+					"Very inspirative. We have to find some more."
+				})
 			end
 		}
 	}
@@ -153,7 +151,12 @@ defineObject{
 		{
 			class = "UsableItem",
 			nutritionValue = 300,
-			name = "usableitem"
+			name = "usableitem",
+			onUseItem = function(self,champion)
+				local mult = iff(champion:hasTrait("fast_metabolism"), 2, 1)
+				champion:regainHealth(40*mult)
+				champion:regainEnergy(20)				
+			end
 		}
 	}
 }

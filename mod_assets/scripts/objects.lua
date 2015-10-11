@@ -62,6 +62,7 @@ defineObject{
 
 defineObject{
 	baseObject = "base_door_sparse",
+	name = "attack_trigger",
 	components = {
 		{
 			model = "assets/models/env/castle_door_porticullis.fbx",
@@ -70,10 +71,10 @@ defineObject{
 			enabled = false
 		},
 		{
-			onAttackedByChampion = function()
+			onAttackedByChampion = function(o, champion, weapon, attack, slot)
 				for e in party.map:entitiesAt(party.x, party.y) do
 						if e.script and e.script.onAttacked then
-							e.script:onAttacked()
+							e.script:onAttacked(o, champion, weapon, attack, slot)
 						end
 					end
 				end,
@@ -84,7 +85,6 @@ defineObject{
 			closeAcceleration = -10,
 			sparse = true
 		}
-	},
-	name = "attack_trigger",
+	},	
 	automapIcon = -1
 }

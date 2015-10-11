@@ -311,6 +311,24 @@ defineObject{
 }
 
 defineObject{
+	name = "snake_flute",
+	baseObject = "base_item",
+	components = {
+		{
+			class = "Model",
+			model = "assets/models/items/flute.fbx",
+		},
+		{
+			class = "Item",
+			uiName = "Snake Flute",
+			gfxIndex = 316,
+			impactSound = "impact_blunt",
+			weight = 0.3,
+		},
+	},
+}
+
+defineObject{
 	baseObject = "base_item",
 	tags = {
 		"item",
@@ -344,7 +362,7 @@ defineObject{
 			weight = 1,
 			primaryAction = "talk",
 			uiName = "Onigin the Chest",
-            description = "Onigin is your new friend. You can store your equipment in him or debate your latest adventures on Pirate Island. Despite his terrible fate, he still has good sense humour and is a funny companion.",
+            description = "Onigin is your new friend. You can store your equipment in him or debate your latest adventures on Pirate Island. (Hold him in hand and activate attack to talk) Despite his terrible fate, he still has good sense humour and is a funny companion.",
             gfxAtlas = "mod_assets/textures/items_2.tga",
 			gfxIndex = 38,
 			class = "Item",
@@ -374,7 +392,7 @@ defineObject{
 		{
 			weight = 0.3,
 			uiName = "Flame Liquid",
-			description = "Smells little bit like Rum. Maybe there is no magic after all.",
+			description = "Smells little bit like Rum. Maybe there is no magic in it after all.",
 			gfxAtlas = "mod_assets/textures/items_2.tga",
 			gfxIndex = 35,
 			stackable = true,
@@ -403,8 +421,6 @@ defineObject{
 		},
 		{
 			requirements = {
-				"concentration",
-				1,
 				"fire_magic",
 				1
 			},
