@@ -18,7 +18,8 @@ defineObject{
 			gfxIndex = 50,
 			class = "Item",
 			name = "item",
-			description = "The fabric of the shemagh keeps the all pervasive desert dust out of the mouth and nostrils of Xafi caravan masters."
+			description = "The fabric of the shemagh keeps the all pervasive desert dust out of the mouth and nostrils of Xafi caravan masters.",
+			armorSet = "pirate",
 		},
 		{
 			class = "EquipmentItem",
@@ -53,7 +54,6 @@ defineObject{
 		{
 			class = "EquipmentItem",
 			name = "equipmentitem",
-			evasion = 5,
 			protection = 5
 		}
 	}
@@ -80,6 +80,30 @@ defineObject{
 		{
 			class = "EquipmentItem",
 			protection = 7,
+		},
+	},
+}
+
+defineObject{
+	name = "rogue_boots",
+	baseObject = "base_item",
+	components = {
+		{
+			class = "Model",
+			model = "assets/models/items/rogue_boots.fbx",
+		},
+		{
+			class = "Item",
+			uiName = "Pirate Boots",
+			description = "Cool pirate boots.",
+			armorSet = "pirate",
+			gfxIndex = 361,
+			weight = 0.25,
+			traits = { "boots" },
+		},
+		{
+			class = "EquipmentItem",
+			protection = 5,
 		},
 	},
 }

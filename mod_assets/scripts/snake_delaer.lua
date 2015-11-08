@@ -46,10 +46,14 @@ function _showPage1()
             if ( response == 2 ) then
                 _showSnakeDescription()
             end			
+			if ( response == 3 ) then
+                _showJuanDescription()
+            end			
         end,
 		responses = {
 			{ text = "Yes. Of course." },
 			{ text = "A snake?" },
+			{ text = "Do you know Juan? A hermit?" },
 			{ text = "No. Thank you." }
 		}
 	}
@@ -73,6 +77,42 @@ function _showSnakePrice()
 			{ text = "Can I see the snake first?" },
 			{ text = "Oh my god! A Ducat? For an ordinary snake?" },
 			{ text = "Good bye." }
+		}
+	}
+
+	GTKGui.Dialogue.showDialoguePage(page);
+end
+
+function _showJuanDescription()	
+	local page = {
+		speakerName = snake_dealer.dealer_name,
+		speakerMessage = "Yessss. Juan is a friend of Luassa people. He livessss at Blue Lagoon.",
+		onFinish = function (response)
+            if ( response == 1 ) then
+                _showLagoonDirections()
+            end            
+        end,
+		responses = {
+			{ text = "Where is this Blue Lagoon? Sssssir?" },
+			{ text = "Thank you. Good bye." }
+		}
+	}
+
+	GTKGui.Dialogue.showDialoguePage(page);
+end
+
+function _showLagoonDirections()	
+	local page = {
+		speakerName = snake_dealer.dealer_name,
+		speakerMessage = "Easssst.",
+		onFinish = function (response)
+            if ( response == 1 ) then
+				_showSnakeDescription()
+            end            
+        end,
+		responses = {
+			{ text = "What did you say about snakes?" },
+			{ text = "Thank you. I have to be going." }
 		}
 	}
 

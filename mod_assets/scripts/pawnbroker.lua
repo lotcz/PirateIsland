@@ -62,27 +62,39 @@ function pawnbroke()
 	end
 end
 
+mr_crab_killed = false
+
+function killedMrCrab()
+	if not mr_crab_killed then
+		mr_crab_killed = true
+		js_quest_crabs_killed = js_quest_crabs_killed + 1
+		helper.script.gainExp(600, "Killed Mr. Crab.")
+	end
+end
+
+mrs_crab_killed = false
+
+function killedMrsCrab()
+	if not mrs_crab_killed then
+		mrs_crab_killed = true
+		js_quest_crabs_killed = js_quest_crabs_killed + 1
+		helper.script.gainExp(600, "Killed Mrs. Crab.")
+	end
+end
+
+
 -- DIALOGUE
+
+cedrick_friend = false
 
 js_quest_started = false
 js_quest_finished = false
+js_quest_crabs_total = 5
 js_quest_crabs_killed = 0
 js_quest_crabs_paid = 0
 js_quest_bunker_key = false
-js_quest_ammo_left = 0
 
-cedrick_friend = false
-balbuino_quest_started = false
 
-function decreaseAmmo()
-	js_quest_ammo_left = js_quest_ammo_left - 1
-end
-
-function killedCrab()
-	js_quest_crabs_killed = js_quest_crabs_killed + 1
-	helper.script.gainExp(600, "Killed a beach crab.")
-	--helper.script.talk("Debug", "crabs killed: " .. js_quest_crabs_killed)
-end
 
 function hideDialogue()
 	GTKGui.Dialogue.hideDialogue();
@@ -132,40 +144,52 @@ function _showWelcome()
 end
 
 function _showCrabReward()	
-	local message
-	if js_quest_crabs_killed >= 2 then
+	local message, on_finish, lresponses
+	
+	if js_quest_crabs_killed >= js_quest_crabs_total then
 		js_quest_finished = true
-		balbuino_quest_started = true
-		helper.script.gainExp(2000, "Killed crabs at Port Ciago.")
-		message = "You did it, you killed them all! Would you be interested in doing even more important job for me?"
-	else
-		message = "Good, my little pirates. Nasty creatures these crabs, aren't they? Keep going."
-	end
-	local coins = js_quest_crabs_killed - js_quest_crabs_paid
-	js_quest_crabs_paid = js_quest_crabs_killed
-	
-	for i=1,coins do
-		local coin = spawn("coin_copper", shopkeeper.level, shopkeeper.x, shopkeeper.y, shopkeeper.facing, shopkeeper.elevation)
-		pawnbroker_switching = true
-		pawnshop_sell.surface:addItem(coin.item)
-		pawnbroker_switching = false
-	end
-	
-	local page = {
-		speakerName = pawnshop.dealer_name,
-		speakerMessage = message,
-		onFinish = function (response)
+		helper.script.gainExp(2000, "Killed all crabs at Port Ciago.")
+		message = "You did it, you killed them all! Would you be interested in an even more dangerous mission?"
+		on_finish = function (response)
             if ( response == 1 ) then
                _showBalbuinoInstructions()
             end		
 			if ( response == 2 ) then
                _showComeBack()
             end		
-        end,
-		responses = {
+        end
+		lresponses = {
 			{ text = "Sure, what is it this time?" },
 			{ text = "No. Thank you. We want to return back home alive." },
 		}
+	else
+		message = "Good, my little pirates. Nasty creatures these crabs, aren't they? Keep going."
+		on_finish = function (response)
+            if ( response == 1 ) then
+               _showQuestInstructions()
+            end				
+        end
+		lresponses = {
+			{ text = "Remind us what are we doing at the moment." },
+			{ text = "I will be back when I kill them all." },
+		}
+	end
+	
+	local coins = js_quest_crabs_killed - js_quest_crabs_paid
+	js_quest_crabs_paid = js_quest_crabs_killed
+	
+	for i=1,coins do
+		local coin = spawn("coin_copper", shopkeeper.level, shopkeeper.x, shopkeeper.y, shopkeeper.facing, shopkeeper.elevation)
+		pawnbroker_switfching = true
+		pawnshop_desk.surface:addItem(coin.item)
+		pawnbroker_switching = false
+	end
+	
+	local page = {
+		speakerName = pawnshop.dealer_name,
+		speakerMessage = message,
+		onFinish = on_finish,
+		responses = lresponses
 	}
 
 	GTKGui.Dialogue.showDialoguePage(page);
@@ -262,12 +286,16 @@ function _showQuestInstructions()
                _showZaeusInstructions()
             end		
 			if ( response == 3 ) then
+               _showFlameInstructions()
+            end
+			if ( response == 4 ) then
                _showCrabInstructions()
             end
         end,
 		responses = {
-			{ text = "How can one fire that cannon sir?" },
+			{ text = "How to fire a navy cannon sir?" },			
 			{ text = "Where is Zaeus shrine?" },
+			{ text = "What about those other canons?" },
 			{ text = "Is there anything that could help us with crabs?" },
 			{ text = "Consider it done." }
 		}
@@ -284,12 +312,16 @@ function _showCannonInstructions()
             if ( response == 1 ) then
                 _showBallsInstructions()
             end
-            if ( response == 2 ) then
+			if ( response == 2 ) then
+                _showFlameInstructions()
+            end
+            if ( response == 3 ) then
                _showTorchInstructions()
             end		
         end,
 		responses = {
 			{ text = "Where can we find cannon balls and gunpowder?" },
+			{ text = "What about those other canons?" },
 			{ text = "Is there any shop with torches nearby?" },
 			{ text = "Mr. Silver, consider it done." }
 		}
@@ -301,6 +333,7 @@ end
 function _showBallsInstructions()
 	local message
 	if not js_quest_bunker_key then
+		cedrick_friend = true
 		js_quest_bunker_key = true
 		local key = spawn("bunker_key", shopkeeper.level, shopkeeper.x, shopkeeper.y, shopkeeper.facing, shopkeeper.elevation)
 		pawnbroker_switching = true
@@ -361,7 +394,7 @@ function _showZaeusInstructions()
         end,
 		responses = {
 			{ text = "I don't remember what was that whole crab mission about." },
-			{ text = "Okay. Let's go shoot the cannon." }
+			{ text = "Okay. Let's go shoot from the cannon." }
 		}
 	}
 
@@ -381,7 +414,7 @@ function _showTorchInstructions()
             end
         end,
 		responses = {
-			{ text = "How do we fire cannon by the Zaeus shrine?" },
+			{ text = "How to fire the cannon by the Zaeus shrine?" },
 			{ text = "Do crabs have any weakness?" },
 			{ text = "Mr. Silver, consider it done." }
 		}
@@ -409,31 +442,74 @@ function _showCrabInstructions()
 end
 
 function _showFlameInstructions()	
-	local message
-	if js_quest_ammo_left == 0 then
-		js_quest_ammo_left = 10
-		local ammo = spawn("flame_liquid", shopkeeper.level, shopkeeper.x, shopkeeper.y, shopkeeper.facing, shopkeeper.elevation)
-		ammo.item:setStackSize(10)
-		pawnbroker_switching = true
-		pawnshop_desk.surface:addItem(ammo.item)
-		pawnbroker_switching = false
-		message = "Here you go. And don't waste, this stuff isn't for free."
-	else
-		message = "I already did and I haven't heard enough explosions yet. You must still have some with you."
-	end
 	local page = {
 		speakerName = pawnshop.dealer_name,
-		speakerMessage = message,
+		speakerMessage = "You probably speak about Balbuino's flame spitter. It requires Balbuino's flame liquid and Balbuino is lost.",
 		onFinish = function (response)
             if ( response == 1 ) then
-               _showCannonInstructions()
-            end		
+               _showBalbuinoInstructions()
+            end	
 			if ( response == 2 ) then
+               _showBalbuinoInstructions2()
+            end		
+			if ( response == 3 ) then
                _showCrabInstructions()
             end		
         end,
 		responses = {
-			{ text = "How do we fire cannon by the Zaeus shrine?" },
+			{ text = "What is so special about this flame liquid?" },
+			{ text = "Do you know where is Balbuino?" },
+			{ text = "Thank you. Bye." },
+		}
+	}
+
+	GTKGui.Dialogue.showDialoguePage(page);
+end
+
+function _showBalbuinoInstructions()	
+	local page = {
+		speakerName = pawnshop.dealer_name,
+		speakerMessage = "Some pirates say it is magic! Hah hah ha! Do you believe in this stuff? It is very deadly ammunition and we also need flame liquid to make our lighthouse shine in the night.",
+		onFinish = function (response)
+			if ( response == 1 ) then
+               _showBalbuinoInstructions2()
+            end
+			if ( response == 2 ) then
+               _showCannonInstructions()
+            end		
+			if ( response == 3 ) then
+               _showCrabInstructions()
+            end		
+        end,
+		responses = {
+			{ text = "Do you know where is Balbuino?" },
+			{ text = "How to fire the cannon by the Zaeus shrine?" },
+			{ text = "How can we make crabs stand in a cannon's firing line?" },
+			{ text = "Thank you. Bye." },
+		}
+	}
+
+	GTKGui.Dialogue.showDialoguePage(page);
+end
+
+function _showBalbuinoInstructions2()	
+	local page = {
+		speakerName = pawnshop.dealer_name,
+		speakerMessage = "Nobody knows. He's been lost for days. He might have slipped when gathering herbs or maybe he drowned in the lagoon. Without his flame liquid lighthouse fire will die.",
+		onFinish = function (response)
+			if ( response == 1 ) then
+               _showBalbuinoInstructions()
+            end
+			if ( response == 2 ) then
+               _showCannonInstructions()
+            end		
+			if ( response == 3 ) then
+               _showCrabInstructions()
+            end		
+        end,
+		responses = {
+			{ text = "What is this flame liquid anyway?" },
+			{ text = "How to fire the cannon by the Zaeus shrine?" },
 			{ text = "How can we make crabs stand in a cannon's firing line?" },
 			{ text = "Thank you. Bye." },
 		}
@@ -448,31 +524,6 @@ function _showComeBack()
 		speakerMessage = "You damned pirates! Come back when you restore your sense for duty.",
 		responses = {
 			{ text = "Bye." },
-		}
-	}
-
-	GTKGui.Dialogue.showDialoguePage(page);
-end
-
-function _showBalbuinoInstructions()	
-	local page = {
-		speakerName = pawnshop.dealer_name,
-		speakerMessage = "Our alchemist, Balbuino, is gone. Without him, we might soon run out of flame liquid and other goodies.",
-		responses = {
-			{ text = "It sounds dangerous, but we go anyway. We are mighty pirates. I mean merchants." },
-		}
-	}
-
-	GTKGui.Dialogue.showDialoguePage(page);
-end
-
-function _showBalbuinoInstructions2()	
-	progress_door.door:open()
-	local page = {
-		speakerName = pawnshop.dealer_name,
-		speakerMessage = "You can go through sewers. Jump into the pit betweeen cages in slaughterhouse.",
-		responses = {
-			{ text = "It sounds dangerous, but we go anyway. We are mighty pirates. I mean merchants." },
 		}
 	}
 

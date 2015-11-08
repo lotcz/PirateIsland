@@ -727,7 +727,7 @@ spawn("mine_support_wall_01",13,18,2,1,"mine_support_wall_01_77")
 spawn("mine_support_pillar_01",17,17,3,0,"mine_support_pillar_01_40")
 spawn("mine_support_pillar_01",17,17,3,1,"mine_support_pillar_01_46")
 spawn("mine_support_wall_01",14,18,2,1,"mine_support_wall_01_78")
-spawn("mine_lever",16,17,0,1,"mine_lever_1")
+spawn("mine_lever",16,17,2,1,"mine_lever_1")
 mine_lever_1.lever:setDisableSelf(false)
 mine_lever_1.lever:addConnector("onToggle", "entering_script", "flagChain")
 spawn("floor_trigger",16,26,1,0,"floor_trigger_6")
@@ -963,7 +963,7 @@ spawn("crab_sens_fire",11,24,2,0,"mr_crab")
 mr_crab.monster:setAIState("guard")
 mr_crab.monster:setLevel(3)
 mr_crab.monster:setHealth(10000)
-mr_crab.monster:addConnector("onDie", "pawnshop_script", "killedCrab")
+mr_crab.monster:addConnector("onDie", "pawnshop_script", "killedMrCrab")
 mr_crab.brainScript:setSource("crab_place = \"crab_floor_trigger\"")
 spawn("floor_trigger",11,24,2,0,"crab_floor_trigger")
 crab_floor_trigger.floortrigger:setTriggeredByParty(false)
@@ -977,7 +977,7 @@ spawn("crab_sens_fire",12,23,1,0,"mrs_crab")
 mrs_crab.monster:setAIState("guard")
 mrs_crab.monster:setLevel(3)
 mrs_crab.monster:setHealth(15000)
-mrs_crab.monster:addConnector("onDie", "pawnshop_script", "killedCrab")
+mrs_crab.monster:addConnector("onDie", "pawnshop_script", "killedMrsCrab")
 mrs_crab.brainScript:setSource("crab_place = \"crab_trigger_2\"")
 spawn("floor_trigger",12,23,1,0,"crab_trigger_2")
 crab_trigger_2.floortrigger:setTriggeredByParty(false)
@@ -1440,7 +1440,6 @@ spawn("mosquito_annoy",22,22,1,0,"mosquito_annoy_5")
 mosquito_annoy_5.monster:setAIState("guard")
 spawn("mosquito_annoy",26,21,3,0,"beach_mosquito")
 beach_mosquito.monster:setAIState("guard")
-spawn("starting_location",15,15,1,0,"starting_location")
 spawn("script_entity",26,21,2,0,"beach_mosquito_script")
 beach_mosquito_script.script:setSource("function spawn()\
 \9local e = findEntity(\"beach_mosquito\")\
@@ -1456,6 +1455,7 @@ beach_mosquito_timer.timer:setTriggerOnStart(false)
 beach_mosquito_timer.timer:setCurrentLevelOnly(true)
 beach_mosquito_timer.timer:addConnector("onActivate", "beach_mosquito_script", "spawn")
 spawn("navy_cannon_ball",9,29,1,0,"navy_cannon_ball_38")
+spawn("starting_location",15,15,2,0,"starting_location")
 
 --- level 2 ---
 
@@ -1904,10 +1904,10 @@ loadLayer("heightmap", {
 	2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-1,-1,-2,-1,-2,-2,-2,-1,-1,-1,0,0,1,2,2,2,2,3,3,
 	2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-1,-2,-2,-2,-1,-1,-1,0,0,1,2,2,2,2,3,3,
 	1,-2,-1,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-1,-1,-1,-1,-1,-1,-1,0,0,1,2,2,2,2,1,1,
-	1,2,-2,-2,-2,-2,-2,-2,-2,-2,-1,-1,-2,-2,-2,-1,-1,-1,-1,-1,-1,-1,-1,0,0,1,2,2,2,2,1,1,
+	1,2,-2,-2,-2,-2,-2,-2,-2,-2,-1,-1,-2,-2,-2,-1,-1,0,0,-1,-1,-1,-1,0,0,1,2,2,2,2,1,1,
 	1,2,-2,-2,-2,-2,-2,-2,-2,-2,-1,-1,-2,-2,-2,0,0,0,0,0,0,0,0,0,2,2,2,2,2,2,1,1,
-	1,2,-2,-2,-2,-2,-2,-2,-2,-2,-1,-1,-2,-2,-2,1,1,1,1,0,0,0,0,2,2,2,2,2,2,2,3,3,
-	1,2,-2,-2,-2,-2,-2,-2,-2,1,1,1,0,0,0,2,2,2,2,1,1,1,1,2,2,2,2,2,2,2,3,3,
+	1,2,-2,-2,-2,-2,-2,-2,-2,-2,-1,-1,-2,-2,-2,1,1,0,0,0,0,0,0,2,2,2,2,2,2,2,2,2,
+	1,2,-2,-2,-2,-2,-2,-2,-2,1,1,1,0,0,0,2,2,2,2,1,1,1,1,2,2,2,2,2,2,2,2,2,
 	1,2,-2,-2,-2,-2,-2,-2,-2,1,1,3,3,3,3,3,3,3,2,1,1,1,1,2,1,2,2,2,2,2,2,2,
 	1,0,-2,-2,-2,-2,-2,1,1,1,3,3,3,3,3,3,3,3,2,2,1,1,1,1,1,1,2,1,2,2,2,2,
 	1,0,-2,-2,-2,-1,-1,-1,0,1,1,3,3,3,3,3,3,3,2,2,1,1,1,1,1,1,1,1,1,2,2,2,
@@ -1973,11 +1973,11 @@ loadLayer("tiles", {
 	3,5,5,5,3,3,3,3,1,1,2,2,5,5,5,1,1,2,2,6,6,6,9,9,9,9,8,8,8,9,10,9,
 	3,3,3,3,3,3,3,5,5,5,2,2,5,2,5,5,5,2,2,6,9,6,6,6,6,6,6,8,9,9,10,9,
 	3,3,3,3,5,5,5,5,1,5,2,2,5,2,5,1,5,2,2,2,9,6,6,9,6,6,6,8,8,9,10,9,
-	3,5,3,3,3,5,1,5,1,5,5,2,5,1,1,1,5,5,5,2,9,9,6,6,6,9,6,9,8,9,10,9,
-	3,5,5,3,3,5,1,1,1,1,5,2,2,1,1,1,1,5,5,2,6,6,9,6,9,6,6,6,8,9,10,9,
-	3,5,5,3,1,1,3,3,3,5,5,2,5,1,1,2,2,1,1,2,2,2,6,6,6,6,6,9,8,9,10,9,
+	3,5,3,3,3,5,1,5,1,5,5,2,5,1,1,1,5,5,5,1,9,9,6,6,6,9,6,9,8,9,10,9,
+	3,5,5,3,3,5,1,1,1,1,5,2,2,1,1,1,2,5,5,1,1,6,9,6,9,6,6,6,8,9,10,9,
+	3,5,5,3,1,1,3,3,3,5,5,2,5,1,1,2,2,2,1,1,1,2,6,6,6,6,6,9,8,9,10,9,
 	3,5,1,3,1,1,1,3,1,1,5,2,5,2,5,2,2,5,5,1,1,2,6,6,6,6,9,9,8,9,10,9,
-	3,5,1,3,1,1,1,1,1,5,5,2,5,2,5,2,2,2,5,1,1,2,6,6,6,6,6,8,8,9,10,9,
+	3,5,1,3,1,1,1,1,1,5,5,2,5,2,5,2,2,2,5,1,1,2,6,6,6,6,6,8,8,8,8,8,
 	3,5,1,3,1,1,1,1,1,5,2,2,5,5,5,2,2,2,5,1,1,2,6,6,6,6,6,8,6,9,10,9,
 	3,5,1,1,1,1,5,5,1,5,5,2,5,2,2,2,2,2,5,1,1,2,2,2,2,2,2,8,2,2,10,9,
 	3,5,1,1,1,1,1,1,1,1,5,5,5,2,3,3,3,5,5,1,1,1,2,2,2,2,2,8,2,2,10,9,
@@ -2074,9 +2074,9 @@ spawn("forest_bridge",16,14,1,4,"forest_bridge_8")
 spawn("forest_bridge",14,13,1,1,"forest_bridge_9")
 spawn("forest_bridge",13,13,1,1,"forest_bridge_10")
 spawn("dungeon_wall_text_long",14,13,2,0,"dungeon_wall_text_long_1")
-dungeon_wall_text_long_1.walltext:setWallText("Lighthouse\
-\
-let it shine")
+dungeon_wall_text_long_1.walltext:setWallText("Lighthouse.\
+--------------\
+Let there be light!")
 spawn("beach_lever",28,18,3,0,"beach_lever_1")
 beach_lever_1.lever:setDisableSelf(false)
 beach_lever_1.lever:addConnector("onActivate", "lighthouse", "lightUp")
@@ -2085,7 +2085,7 @@ spawn("swamp_dead_tree",24,9,0,0,"swamp_dead_tree_1")
 spawn("forest_oak_cluster",29,18,2,0,"forest_oak_cluster_1")
 spawn("forest_oak_cluster",28,16,1,0,"forest_oak_cluster_2")
 spawn("forest_ruins_dome",28,18,0,0,"forest_ruins_dome_1")
-spawn("background_hill_01",31,20,1,-1,"background_hill_01_1")
+spawn("background_hill_01",31,23,1,-1,"background_hill_01_1")
 spawn("beach_rock_3x1",29,30,2,0,"beach_rock_3x1_3")
 spawn("beach_crab",3,27,1,0,"beach_crab_1")
 spawn("beach_crab",18,28,3,0,"beach_crab_2")
@@ -2485,9 +2485,10 @@ spawn("invisible_wall",14,15,3,3,"invisible_wall_18")
 spawn("invisible_wall",14,14,1,1,"invisible_wall_19")
 spawn("invisible_wall",15,15,3,2,"invisible_wall_20")
 spawn("mine_alcove_support",16,15,1,3,"mine_alcove_support_1")
+spawn("flame_liquid",16,15,1,3,"flame_liquid_2")
+mine_alcove_support_1.surface:addItem(flame_liquid_2.item)
 spawn("dungeon_pillar",14,16,3,2,"dungeon_pillar_65")
 spawn("castle_wall_cloth_torn",15,15,0,6,"castle_wall_cloth_torn_1")
-spawn("potion_cure_poison",17,12,2,0,"potion_cure_poison_6")
 spawn("pedestal",17,1,3,0,"lighthouse_shop_desk")
 lighthouse_shop_desk.surface:addConnector("onRemoveItem", "lighthouse_shop_script", "takeItem")
 lighthouse_shop_desk.surface:addConnector("onInsertItem", "lighthouse_shop_script", "putItem")
@@ -3006,7 +3007,6 @@ spawn("mine_ceiling_lantern",19,6,0,0,"mine_ceiling_lantern_4")
 spawn("giant_snake",20,9,1,0,"giant_snake_4")
 spawn("giant_snake",19,8,1,0,"giant_snake_5")
 spawn("giant_snake",21,8,1,0,"giant_snake_6")
-spawn("beach_door_wood",17,9,1,0,"beach_door_wood_2")
 spawn("floor_trigger",17,3,3,0,"floor_trigger_28")
 floor_trigger_28.floortrigger:setTriggeredByParty(true)
 floor_trigger_28.floortrigger:setTriggeredByMonster(false)
@@ -3023,7 +3023,7 @@ spawn("mine_support_wall_02",4,11,0,0,"mine_support_wall_02_14")
 spawn("pedestal",4,10,0,0,"pedestal_5")
 spawn("turtle_nest",5,11,2,0,"turtle_nest_3")
 spawn("chest",6,12,0,0,"chest_10")
-spawn("mine_support_wall_01",6,10,2,0,"mine_support_wall_01_146")
+spawn("mine_support_wall_01",5,10,2,0,"mine_support_wall_01_146")
 spawn("pedestal",4,10,1,0,"pedestal_6")
 pedestal_6.model:disable()
 spawn("forest_lantern",17,13,2,0,"forest_lantern_3")
@@ -3100,6 +3100,21 @@ spawn("terracotta_jars_block",18,2,2,0,"terracotta_jars_block_10")
 spawn("mine_support_beam_01",19,2,2,0,"mine_support_beam_01_50")
 spawn("mine_support_pillar_01",20,2,3,0,"mine_support_pillar_01_150")
 spawn("mine_support_ceiling_01",19,2,2,0,"mine_support_ceiling_01_21")
+spawn("forest_wall_text_long",27,11,2,0,"forest_wall_text_long_4")
+forest_wall_text_long_4.walltext:setWallText("LIGHTHOUSE\
+-------------\
+No visitors.")
+spawn("forest_exit_rock_tunnel",31,11,1,0,"forest_exit_rock_tunnel_8")
+spawn("forest_ruins_pillar_fallen",28,12,2,0,"forest_ruins_pillar_fallen_5")
+spawn("mine_door_spear",18,9,3,0,"mine_door_spear_21")
+spawn("dungeon_pillar",18,9,2,0,"dungeon_pillar_156")
+spawn("dungeon_pillar",18,10,2,0,"dungeon_pillar_157")
+spawn("mine_support_wall_01",13,13,2,1,"mine_support_wall_01_64")
+mine_support_wall_01_64.model:disable()
+spawn("pedestal",13,13,3,0,"pedestal_2")
+spawn("flame_liquid",13,13,3,0,"flame_liquid_1")
+pedestal_2.surface:addItem(flame_liquid_1.item)
+spawn("food_water_flask",17,13,3,0,"food_water_flask_6")
 
 --- level 4 ---
 
@@ -3289,7 +3304,7 @@ loadLayer("tiles", {
 	8,6,6,6,8,6,6,8,8,8,6,6,6,6,8,6,6,6,6,6,6,8,6,5,5,3,3,3,5,5,5,5,
 	8,6,7,7,8,6,6,6,6,8,8,8,6,6,8,8,6,8,8,6,6,8,6,5,5,5,5,5,5,5,5,5,
 	8,6,6,6,8,8,8,6,6,6,6,6,6,6,6,6,6,8,8,8,8,8,6,6,6,3,3,3,3,3,3,3,
-	8,8,8,6,6,6,8,8,8,6,6,8,8,8,8,8,8,8,6,8,8,6,6,6,6,3,3,3,3,3,3,3,
+	8,8,6,6,6,6,8,8,8,6,6,8,8,8,8,8,8,8,6,8,8,6,6,6,6,3,3,3,3,3,3,3,
 	7,8,7,6,6,6,7,6,6,6,6,8,6,6,6,6,6,8,6,8,8,6,6,6,6,3,3,3,3,3,3,3,
 	7,8,7,6,7,6,6,6,8,8,6,6,6,8,6,6,6,6,6,6,8,6,6,6,6,3,3,3,3,3,3,3,
 	7,8,7,6,7,7,7,7,7,8,8,6,8,8,8,8,8,6,6,6,8,6,6,6,6,3,3,3,3,3,3,3,
@@ -4200,7 +4215,7 @@ spawn("mine_support_pillar_01",5,27,1,0,"mine_support_pillar_01_126")
 spawn("mine_support_pillar_01",6,27,2,0,"mine_support_pillar_01_127")
 spawn("mine_support_pillar_01",6,28,3,0,"mine_support_pillar_01_128")
 spawn("mine_support_pillar_01",4,27,0,0,"mine_support_pillar_01_129")
-spawn("forest_lantern",4,23,2,1,"lighter_3")
+spawn("forest_lantern",5,23,3,2,"lighter_3")
 lighter_3.light:disable()
 lighter_3.particle:disable()
 spawn("forest_lantern",3,25,2,0,"lighter_1")
@@ -4227,6 +4242,8 @@ lighter_script.script:setSource("fire_1 = 0\
 fire_2 = 0\
 fire_3 = 0\
 \
+door_open = false\
+\
 function _light(n)\
 \9local lighter = findEntity(\"lighter_\" .. n)\
 \9lighter.light:enable()\
@@ -4250,6 +4267,11 @@ function lighter()\
 \9elseif fire_1 == 2 and fire_2 == 2 and fire_3 == 2 then\
 \9\9_allDown()\
 \9\9spawner_10.spawner:activate()\
+\9\9beach_door_wood_1.door:open()\
+\9\9if not door_open then\
+\9\9\9helper.script.gainExp(1000,\"Solved Balbuino's riddle.\")\
+\9\9\9door_open = true\
+\9\9end\
 \9end\
 end\
 \
@@ -4291,7 +4313,7 @@ function _allDown()\
 \9forest_fireflies_13.light:disable()\
 \9forest_fireflies_13.particle:disable()\
 end")
-spawn("forest_fireflies",4,23,3,1,"forest_fireflies_12")
+spawn("forest_fireflies",5,23,3,2,"forest_fireflies_12")
 forest_fireflies_12.particle:disable()
 forest_fireflies_12.light:disable()
 spawn("forest_fireflies",3,25,3,0,"forest_fireflies_13")
@@ -4758,6 +4780,23 @@ spawn("beach_cattail_blocker",30,10,1,0,"beach_cattail_blocker_128")
 spawn("beach_cattail_blocker",30,9,1,0,"beach_cattail_blocker_129")
 spawn("beach_cattail_blocker",30,8,1,0,"beach_cattail_blocker_130")
 spawn("beach_cattail_blocker",28,9,1,0,"beach_cattail_blocker_131")
+spawn("daemon_head_ruins",3,27,3,0,"daemon_head_ruins_3")
+spawn("forest_ruins_wall_01",2,27,1,0,"forest_ruins_wall_01_17")
+forest_ruins_wall_01_17.door:disable()
+spawn("attack_trigger",3,27,3,0,"attack_trigger_8")
+spawn("script_entity",3,27,2,0,"script_entity_14")
+script_entity_14.script:setSource("head_hit = false\
+\
+function onAttacked()\
+\9mine_door_spear_16.door:open()\
+\9if not head_hit then\
+\9\9helper.script.gainExp(150,\"Hit the head to open door.\")\
+\9\9head_hit = true\
+\9end\
+end")
+spawn("forest_ruins_wall_01",2,27,2,0,"forest_ruins_wall_01_34")
+forest_ruins_wall_01_34.door:disable()
+spawn("forest_ruins_pillar_02",3,28,1,0,"forest_ruins_pillar_02_12")
 
 --- level 5 ---
 
@@ -5391,7 +5430,7 @@ loadLayer("tiles", {
 	1,5,5,5,5,5,5,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,5,5,5,5,5,5,5,4,2,1,
 	1,2,5,5,5,5,5,3,3,3,5,3,3,3,3,3,3,3,3,3,3,3,5,5,5,5,5,5,5,5,2,1,
 	1,6,5,5,5,5,5,3,3,3,5,5,3,3,3,3,3,3,3,3,3,3,5,5,5,4,5,5,5,6,2,1,
-	1,6,5,2,5,5,5,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,5,5,5,4,4,4,4,6,2,1,
+	5,5,5,2,5,5,5,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,5,5,5,4,4,4,4,6,2,1,
 	1,2,2,5,5,5,5,3,3,3,3,3,3,3,3,3,3,3,3,3,3,5,5,5,5,4,4,4,4,6,2,1,
 	1,2,2,2,2,5,5,3,3,3,3,3,3,3,3,3,3,3,3,3,3,5,5,5,5,4,4,4,5,6,2,1,
 	1,2,5,2,5,5,5,3,3,3,3,3,3,3,3,3,3,3,3,3,3,5,5,5,5,4,4,4,4,5,2,1,
@@ -6272,7 +6311,7 @@ spawn("mine_support_wall_01",2,1,2,0,"mine_support_wall_01_138")
 spawn("mine_support_wall_01",3,1,3,0,"mine_support_wall_01_139")
 spawn("mine_support_wall_01",3,1,1,0,"mine_support_wall_01_140")
 spawn("mine_support_wall_01",3,2,1,0,"mine_support_wall_01_141")
-spawn("mine_support_wall_01",2,2,2,0,"mine_support_wall_01_142")
+spawn("mine_support_wall_01",2,3,0,0,"mine_support_wall_01_142")
 spawn("mine_support_wall_01",1,2,2,0,"mine_support_wall_01_143")
 spawn("mine_support_pillar_01",4,1,2,0,"mine_support_pillar_01_143")
 spawn("mine_door_spear",3,2,2,0,"mine_door_spear_14")
@@ -6389,6 +6428,9 @@ script_entity_13.script:setSource("function onAttacked()\
 \9invisible_platform_19.controller:deactivate()\
 end")
 spawn("beach_cattail_blocker",9,16,2,-1,"beach_cattail_blocker_125")
+spawn("forest_exit_rock_tunnel",0,11,3,0,"forest_exit_rock_tunnel_7")
+spawn("pirate_lock",2,2,2,0,"pirate_lock_5")
+pirate_lock_5.lock:setOpenedBy("")
 
 --- level 7 ---
 
@@ -6813,6 +6855,12 @@ spawn("mine_ceiling_pit_light",15,28,0,0,"mine_ceiling_pit_light_1")
 spawn("floor_dirt",15,28,2,0,"floor_dirt_42")
 spawn("floor_spike_trap",15,28,2,0,"floor_spike_trap_14")
 floor_spike_trap_14.animation:disable()
+spawn("food_mushroom",15,22,0,0,"food_mushroom_5")
+spawn("food_mushroom",15,22,3,0,"food_mushroom_6")
+spawn("food_mushroom",15,20,2,0,"food_mushroom_7")
+spawn("food_mushroom",15,20,3,0,"food_mushroom_8")
+spawn("food_mushroom",15,20,3,0,"food_mushroom_9")
+spawn("food_mushroom",15,22,0,0,"food_mushroom_10")
 
 --- level 8 ---
 
@@ -7067,7 +7115,7 @@ dungeon_pit_trapdoor_2.pit:setState("open")
 dungeon_pit_trapdoor_2.platform:disable()
 spawn("dungeon_pressure_plate",15,8,0,0,"dungeon_pressure_plate_1")
 dungeon_pressure_plate_1.floortrigger:setTriggeredByParty(true)
-dungeon_pressure_plate_1.floortrigger:setTriggeredByMonster(true)
+dungeon_pressure_plate_1.floortrigger:setTriggeredByMonster(false)
 dungeon_pressure_plate_1.floortrigger:setTriggeredByItem(true)
 dungeon_pressure_plate_1.floortrigger:setTriggeredByDigging(false)
 dungeon_pressure_plate_1.floortrigger:setDisableSelf(false)
@@ -7243,7 +7291,6 @@ function alcoveRemoveItem(alcove, item)\
 \9end\
 end")
 spawn("floor_dirt",18,11,2,-1,"floor_dirt_1")
-spawn("crystal_flower",16,11,1,0,"crystal_flower_1")
 spawn("dungeon_alcove",15,19,1,0,"dungeon_alcove_5")
 spawn("embalmers_headpiece",15,19,1,0,"embalmers_headpiece_1")
 dungeon_alcove_5.surface:addItem(embalmers_headpiece_1.item)
@@ -7520,7 +7567,6 @@ spawn("ladder_metal",17,6,2,-1,"ladder_metal_7")
 spawn("brass_key",17,7,1,0,"brass_key_1")
 spawn("skull",13,9,1,-1,"skull_1")
 spawn("skull",14,7,0,-1,"skull_2")
-spawn("skull",17,7,2,0,"skull_3")
 spawn("embalmers_robe",17,7,3,0,"embalmers_robe_1")
 spawn("timer",18,7,1,0,"timer_2")
 timer_2.timer:setTimerInterval(35)
@@ -7554,12 +7600,9 @@ spawner_4.spawner:setSpawnedEntity("poison_cloud_small")
 spawner_4.spawner:setMonsterLevel(1)
 spawner_4.spawner:setCooldown(0)
 spawner_4.spawner:setDisableSelf(false)
-spawn("rat_shank",16,9,3,0,"rat_shank_1")
-spawn("rat_shank",12,9,3,0,"rat_shank_2")
 spawn("pedestal",11,7,0,0,"pedestal_1")
-spawn("nomad_mittens",11,7,0,0,"nomad_mittens_1")
-spawn("nomad_boots",16,11,3,0,"nomad_boots_1")
-spawn("potion_cure_poison",12,7,3,0,"potion_cure_poison_2")
+spawn("potion_cure_poison",11,7,0,0,"potion_cure_poison_2")
+pedestal_1.surface:addItem(potion_cure_poison_2.item)
 spawn("arrow",11,8,2,0,"arrow_1")
 spawn("pullchain",9,14,3,0,"pullchain_1")
 pullchain_1.button:setDisableSelf(false)
@@ -7591,8 +7634,6 @@ timer_9.timer:setCurrentLevelOnly(true)
 timer_9.timer:addConnector("onActivate", "spawner_4", "activate")
 spawn("green_slime",15,10,1,0,"green_slime_1")
 spawn("green_slime",14,8,2,0,"green_slime_2")
-spawn("green_slime",11,7,2,0,"green_slime_3")
-spawn("green_slime",12,9,0,0,"green_slime_4")
 spawn("torch",11,11,1,0,"torch_1")
 spawn("torch_holder",12,11,2,0,"torch_holder_5")
 torch_holder_5.controller:setHasTorch(false)
@@ -7631,6 +7672,7 @@ dungeon_secret_button_large_2.button:setDisableSelf(false)
 dungeon_secret_button_large_2.button:addConnector("onActivate", "dungeon_pit_trapdoor_4", "open")
 spawn("food_mushroom",17,7,2,0,"food_mushroom_3")
 spawn("food_mushroom",17,7,1,0,"food_mushroom_4")
+spawn("crystal_flower",17,7,2,0,"crystal_flower_1")
 
 --- level 10 ---
 
