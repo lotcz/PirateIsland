@@ -94,10 +94,12 @@ js_quest_crabs_killed = 0
 js_quest_crabs_paid = 0
 js_quest_bunker_key = false
 
-
+function cedrickFriend()
+	cedrick_friend = true
+end
 
 function hideDialogue()
-	GTKGui.Dialogue.hideDialogue();
+	GTKGui.Dialogue.hideDialogue()
 end
 
 function triggeredDialogue()	

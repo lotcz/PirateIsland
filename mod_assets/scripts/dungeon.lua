@@ -703,6 +703,13 @@ function trigger()\
 \9\9\9}\
 \9\9)\
 \9end\
+end\
+\
+function inside()\
+\9if not guard_bribed then\
+\9\9bribe_lever.lever:toggle();\
+\9\9guard_bribed = true\
+\9end\
 end")
 spawn("lever",15,26,0,0,"bribe_lever")
 bribe_lever.lever:setDisableSelf(false)
@@ -816,7 +823,6 @@ spawn("floor_dirt",16,27,2,0,"floor_dirt_12")
 spawn("beach_rock_border",14,21,2,0,"beach_rock_border_9")
 spawn("beach_rock_1x1",14,21,1,0,"beach_rock_1x1_8")
 spawn("beach_stone_ring",10,30,0,0,"beach_stone_ring_2")
-spawn("etherweed",11,27,0,0,"etherweed_5")
 spawn("note",10,30,0,0,"note_3")
 note_3.scrollitem:setScrollText("Oh, mighty Zaeus, I pray to you and hereby make\
 a sacrifice so you make my cousin come back\
@@ -1456,6 +1462,16 @@ beach_mosquito_timer.timer:setCurrentLevelOnly(true)
 beach_mosquito_timer.timer:addConnector("onActivate", "beach_mosquito_script", "spawn")
 spawn("navy_cannon_ball",9,29,1,0,"navy_cannon_ball_38")
 spawn("starting_location",15,15,2,0,"starting_location")
+spawn("loincloth",6,26,2,0,"loincloth_1")
+spawn("torn_breeches",9,24,3,0,"torn_breeches_4")
+spawn("tattered_shirt",7,29,1,0,"tattered_shirt_1")
+spawn("floor_trigger",16,27,2,0,"floor_trigger_37")
+floor_trigger_37.floortrigger:setTriggeredByParty(true)
+floor_trigger_37.floortrigger:setTriggeredByMonster(true)
+floor_trigger_37.floortrigger:setTriggeredByItem(true)
+floor_trigger_37.floortrigger:setTriggeredByDigging(false)
+floor_trigger_37.floortrigger:setDisableSelf(false)
+floor_trigger_37.floortrigger:addConnector("onActivate", "bribe_script", "inside")
 
 --- level 2 ---
 
@@ -4177,7 +4193,7 @@ spawn("mine_support_pillar_01",3,16,0,0,"mine_support_pillar_01_121")
 spawn("mine_support_ceiling_01",3,16,2,0,"mine_support_ceiling_01_20")
 spawn("beach_thicket_01",3,16,0,1,"beach_thicket_01_13")
 spawn("forest_heather",16,8,3,0,"forest_heather_6")
-spawn("scroll_make_torn_cloth",3,17,1,0,"scroll_make_torn_cloth_1")
+spawn("scroll_make_torn_cloth",28,17,2,0,"scroll_make_torn_cloth_1")
 spawn("note",10,15,2,0,"note_5")
 note_5.scrollitem:setScrollText("Baruk, tell them to put warning flag down and let me in. I am here to visit Balbuino.\
 \
@@ -4797,6 +4813,35 @@ end")
 spawn("forest_ruins_wall_01",2,27,2,0,"forest_ruins_wall_01_34")
 forest_ruins_wall_01_34.door:disable()
 spawn("forest_ruins_pillar_02",3,28,1,0,"forest_ruins_pillar_02_12")
+spawn("crab_sens_fire",29,11,3,0,"view_crab")
+view_crab.brainScript:setSource("crab_place = \"view_crab_trigger\"")
+spawn("floor_trigger",29,11,3,0,"view_crab_trigger")
+view_crab_trigger.floortrigger:setTriggeredByParty(false)
+view_crab_trigger.floortrigger:setTriggeredByMonster(true)
+view_crab_trigger.floortrigger:setTriggeredByItem(false)
+view_crab_trigger.floortrigger:setTriggeredByDigging(false)
+view_crab_trigger.floortrigger:setDisableSelf(false)
+view_crab_trigger.floortrigger:addConnector("onActivate", "script_entity_15", "stop")
+view_crab_trigger.floortrigger:addConnector("onDeactivate", "script_entity_15", "goGuard")
+spawn("script_entity",29,12,3,0,"script_entity_15")
+script_entity_15.script:setSource("function goGuard()\9\
+\9if cliff_crab then\
+\9\9cliff_crab.brainScript.crab_in_place = false\
+\9end\
+end\
+\
+function stop(crab)\
+\9-- print(crab)\
+\9if cliff_crab then\
+\9\9cliff_crab.brainScript.crab_in_place = true\
+\9\9cliff_crab.brain:startGuarding()\
+\9end\
+end")
+spawn("coin_silver",29,11,1,0,"coin_silver_4")
+spawn("pirate_machete",29,11,2,0,"pirate_machete_1")
+spawn("pedestal",20,23,0,1,"pedestal_7")
+pedestal_7.model:disable()
+spawn("coin_copper",29,11,0,0,"coin_copper_2")
 
 --- level 5 ---
 
@@ -6096,9 +6141,7 @@ spawn("beach_rock_blocker_01",17,6,3,-1,"beach_rock_blocker_01_4")
 spawn("beach_boulder",19,6,0,-1,"beach_boulder_11")
 spawn("note",16,3,2,0,"note_4")
 note_4.scrollitem:setScrollText("Hanus was cutting cattails in the lagoon\
-and was grabbed by a monster.\
-I think he is still alive.\
-I will jump into water and try to save him.")
+and was grabbed by a monster!")
 spawn("tombstone",5,4,1,0,"tombstone_1")
 tombstone_1.walltext:setWallText("Helementin the Pirate, the first captain of Pirate Island.")
 spawn("forest_border_rocks_01",14,17,3,0,"forest_border_rocks_01_6")
@@ -6367,8 +6410,6 @@ spawn("forest_oak_cluster",31,22,1,0,"forest_oak_cluster_53")
 spawn("forest_oak_cluster",31,23,1,0,"forest_oak_cluster_54")
 spawn("forest_oak_cluster",30,24,1,0,"forest_oak_cluster_55")
 spawn("forest_oak_cluster",31,24,1,0,"forest_oak_cluster_56")
-spawn("etherweed",12,17,2,0,"etherweed_6")
-spawn("etherweed",12,18,0,0,"etherweed_7")
 spawn("food_mushroom",13,17,3,0,"food_mushroom_1")
 spawn("food_mushroom",12,18,1,0,"food_mushroom_2")
 spawn("forest_oak",20,3,0,0,"forest_oak_8")
@@ -6431,6 +6472,13 @@ spawn("beach_cattail_blocker",9,16,2,-1,"beach_cattail_blocker_125")
 spawn("forest_exit_rock_tunnel",0,11,3,0,"forest_exit_rock_tunnel_7")
 spawn("pirate_lock",2,2,2,0,"pirate_lock_5")
 pirate_lock_5.lock:setOpenedBy("")
+spawn("food_mushroom",12,18,0,0,"food_mushroom_11")
+spawn("food_mushroom",11,18,0,0,"food_mushroom_12")
+spawn("food_mushroom",12,17,2,0,"food_mushroom_13")
+spawn("food_mushroom",13,17,2,0,"food_mushroom_14")
+spawn("coin_copper",5,4,0,0,"coin_copper_10")
+spawn("coin_copper",25,6,2,0,"coin_copper_11")
+spawn("coin_copper",24,13,3,0,"coin_copper_12")
 
 --- level 7 ---
 
@@ -6640,7 +6688,8 @@ end\
 function knockJuan()\
 \9local n = hermit.brainScript.character_name\
 \9if not hermit_advice_1 then\
-\9\9hermit_advice_1 = true\9\9\
+\9\9hermit_advice_1 = true\
+\9\9pawnshop_script.script.cedrickFriend()\9\9\
 \9\9local t = string.gsub(hermit_letter_1.scrollitem:getScrollText(), \"bbb\", butcher.brainScript.character_name)\
 \9\9t = string.gsub(t, \"aaa\", butcher_apprentice_script.script.character_name)\
 \9\9hermit_letter_1.scrollitem:setScrollText(t)\

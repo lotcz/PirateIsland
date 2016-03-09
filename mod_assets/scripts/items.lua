@@ -362,7 +362,7 @@ defineObject{
 			weight = 1,
 			primaryAction = "talk",
 			uiName = "Onigin the Chest",
-            description = "Onigin is your new friend. You can store your equipment in him or debate your latest adventures on Pirate Island. (Hold him in hand and activate attack to talk) Despite his terrible fate, he still has good sense humour and is a funny companion.",
+            description = "Onigin is your new friend. You can store your equipment in him or debate your latest adventures on Pirate Island. (Hold him in hand and activate attack to talk) Despite his terrible fate, he still has good sense of humour and is a funny companion.",
             gfxAtlas = "mod_assets/textures/items_2.tga",
 			gfxIndex = 38,
 			class = "Item",

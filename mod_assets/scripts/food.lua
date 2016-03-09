@@ -213,7 +213,7 @@ defineObject{
 			stackable = true,
 			uiName = "Pirate Crystal",
 			gfxIndex = 437,
-			gameEffect = "Heals all wounds and raises dead champions back to life. In some countries it is illegal, but you are okay to use it freely on Pirate Island.",
+			gameEffect = "Heals all wounds and raises dead champions back to life. This stuff is illegal in some countries, but you are can use it freely on Pirate Island.",
 			name = "item",
 			class = "Item"
 		}		

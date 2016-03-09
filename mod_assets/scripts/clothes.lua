@@ -391,6 +391,7 @@ defineObject{
 		}
 	}
 }
+
 defineObject{
 	baseObject = "base_item",
 	name = "hermit_necklace",
